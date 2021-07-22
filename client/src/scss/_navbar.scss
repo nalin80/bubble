@@ -1,0 +1,48 @@
+.navBar-box{
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .title{
+        color: #5f5f5f;
+        margin-bottom: 0 !important;
+    }
+
+    .user-section{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        .userLogo{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 4px;
+            margin-right: 6px;
+            width: 27px;
+            border-radius: 50%;
+            background-color: #AB47BC;
+            .title{
+                color: white;
+                font-size: 15px;
+            }
+        }
+        .title{
+            font-size: 1rem;
+            text-transform:capitalize;
+        }
+        .signIn-btn{
+            margin-left: 5px;
+            width: 55px;
+            height: 21px;
+            border: none;
+            background: #dc3545;
+            color: white;
+            font-weight: 500;
+            font-size: 12px;
+            padding: 1px;
+        }
+
+    }
+
+}

@@ -1,9 +1,11 @@
+const initialLoginState = JSON.parse(localStorage.getItem('profile'))?.token;
+
 const initialState = {
     LogginStart: false,
     LoginEnd: false,
     RegistraionStart: false,
     RegistraionEnd: false,
-    isLoggedIn:false
+    isLoggedIn:initialLoginState?true:false
 }
 
 const authReducers = (state = initialState, actions) => {

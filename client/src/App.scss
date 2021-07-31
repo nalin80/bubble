@@ -1,4 +1,10 @@
-//importing partials
+a{
+    text-decoration: none;
+}
 
+
+//importing partials
 @import './scss/login';
 @import './scss/navbar';
+@import './scss/linkBars';
+@import './scss/shop';

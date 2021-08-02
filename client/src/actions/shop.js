@@ -1,5 +1,9 @@
 import * as api from '../api/index';
 
+import {LoggedInStatus} from './auth';
+import {showSuccessNotification,showFailNotification} from './notification';
+
+
 export const createShop = (formData)=>async (dispatch)=>{
       
      try {
@@ -13,7 +17,8 @@ export const createShop = (formData)=>async (dispatch)=>{
      } catch (error) {
         dispatch({type:'CREATING_ENDS'});
         const {data} = error.response;
-        console.log(data); 
+        dispatch(showFailNotification(data.message));
+        
      }
 
 }
@@ -25,8 +30,8 @@ export const getShop = ()=>async (dispatch)=>{
        dispatch({type:'GET_SHOP',payload:data});
 
     } catch (error) {
-        const {data} = error.response;
-        console.log(data); 
+
+        dispatch(LoggedInStatus()); 
     }
 
 }
@@ -39,9 +44,32 @@ export const updateShop = (formData,id)=>async(dispatch)=>{
       dispatch({type:'UPDATE_SHOP',payload:data}); 
 
       dispatch({type:'CREATING_ENDS'});
+
+      const message = 'Shop Updated successfully';
+      dispatch(showSuccessNotification(message));
+
    }catch(error){
       dispatch({type:'CREATING_ENDS'});
       const {data} = error.response;
-      console.log(data); 
+
+      dispatch(showFailNotification(data.message));
+       
    }
 } 
+
+export const deleteShop = (id)=> async(dispatch)=>{
+
+   try{
+      const {data} = await api.deleteShop(id);
+      console.log(data);
+      dispatch({type:'DELETE_SHOP',payload:id});
+
+      dispatch(showSuccessNotification(data.message));
+
+   }catch(error){
+      const {data} = error.response;
+      dispatch(showFailNotification(data.message));
+   }
+
+
+}

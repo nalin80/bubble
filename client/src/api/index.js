@@ -17,3 +17,4 @@ export const signUp = (formData)=>API.post('/users/signUp',formData);
 export const createShop = (formData)=>API.post('/shop/createShop',formData);
 export const getShop = ()=>API.get('/shop/getShop');
 export const updateShop = (formData,id)=>API.post(`/shop/updateShop/${id}`,formData);
+export const deleteShop = (id)=>API.post(`/shop/deleteShop/${id}`);

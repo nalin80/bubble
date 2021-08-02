@@ -32,7 +32,7 @@ function MyProduct(props) {
                         <input className="inputField" type="text" name="add-category" placeholder="Add Category"/>
                     </div>
                     <div className="input-field-container">
-                    <button className="inputField submit-btn">Search Product</button>
+                    <button className="inputField submit-btn">Add Category</button>
                     </div>
                 </form>
             </div>

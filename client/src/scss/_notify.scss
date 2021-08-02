@@ -1,0 +1,42 @@
+.notyfi-container{
+    display: flex;
+    position: absolute;
+    top: 68px;
+    right: 0;
+    width: 280px;
+    min-height:50px;
+    background: white;
+    justify-content:space-between;
+    align-items: flex-start;
+    padding: 8px 8px 10px 8px;
+
+    .notyfi-body{
+        line-height: 10px;
+
+        h5{
+            margin-bottom: 0;
+            font-weight: 400;
+        }
+
+        span{
+            color: #a5a5a5;
+            font-size: .8rem;
+        }
+
+    }
+
+    .close-btn{
+        color: #a5a5a5;
+        font-size: 12px;
+        cursor: pointer;
+    }
+
+}
+
+.success-msg{
+    border-left: 5px solid #46C35B;
+}
+
+.error-msg{
+    border-left: 5px solid #FD5F5F;
+}

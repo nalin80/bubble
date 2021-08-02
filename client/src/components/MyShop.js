@@ -5,6 +5,7 @@ import ShopCard from './smallComponents/ShopCard';
 
 import upload_icon from './images/upload-icon.png';
 import { createShop, getShop,updateShop} from '../actions/shop';
+import {showFailNotification} from '../actions/notification';
 
 function MyShop(props) {
   
@@ -51,7 +52,9 @@ function MyShop(props) {
       clear();
     } else {
       //Todo show alert;
-      console.log('fill all');
+      const message = 'All fields are required';
+      dispatch(showFailNotification(message));
+      
     }
 
   }

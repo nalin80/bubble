@@ -21,7 +21,9 @@ function NavBar(props) {
         history.push('/auth');
     }
 
-    const profile = JSON.parse(localStorage.getItem('profile'));
+
+    //this value is comming from auth reducers;
+    const profile = useSelector((state)=>state.auth.user);
 
     useEffect(()=>{
         isAlertOpen?document.body.classList.add('alert-body'):document.body.classList.remove('alert-body');

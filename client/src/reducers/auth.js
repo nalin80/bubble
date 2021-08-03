@@ -1,11 +1,12 @@
-const initialLoginState = JSON.parse(localStorage.getItem('profile'))?.token;
+const initialLoginState = JSON.parse(localStorage.getItem('profile'));
 
 const initialState = {
     LogginStart: false,
     LoginEnd: false,
     RegistraionStart: false,
     RegistraionEnd: false,
-    isLoggedIn:initialLoginState?true:false
+    isLoggedIn:initialLoginState?.token?true:false,
+    user:null
 }
 
 const authReducers = (state = initialState, actions) => {
@@ -38,8 +39,9 @@ const authReducers = (state = initialState, actions) => {
             case 'LOGGED_IN':
                 return {
                     ...state,
-                    isLoggedIn:actions.payload
-                }
+                    isLoggedIn:actions.payload.state,
+                    user:actions.payload.user
+                }    
         default:
             return state;
     }

@@ -61,7 +61,6 @@ function MyShop(props) {
 
   useEffect(() => {
     
-    console.log('hi');
     dispatch(getShop());
 
   },[dispatch]);

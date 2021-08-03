@@ -51,9 +51,20 @@ export const LoggedInStatus = ()=>async (dispatch)=>{
     const profile = JSON.parse(localStorage.getItem('profile'));
     
     if(profile?.token){
-        dispatch({type:'LOGGED_IN',payload:true});
+        dispatch({type:'LOGGED_IN',payload:{
+            state:true,
+            user:{
+                id:profile?.id,
+                name:profile?.name,
+                email:profile?.email,
+                token:profile?.token
+            }
+        }});
     }else{
-        dispatch({type:'LOGGED_IN',payload:false});
+        dispatch({type:'LOGGED_IN',payload:{
+            state:false,
+            user:null
+        }});
     }
 
 }

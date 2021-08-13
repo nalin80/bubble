@@ -1,14 +1,15 @@
 .notyfi-container{
     display: flex;
-    position: absolute;
-    top: 68px;
-    right: 0;
+    position: fixed;
+    top: 52px;
+    right: 12px;
     width: 280px;
     min-height:50px;
     background: white;
     justify-content:space-between;
     align-items: flex-start;
     padding: 8px 8px 10px 8px;
+    z-index: 2;
 
     .notyfi-body{
         line-height: 10px;

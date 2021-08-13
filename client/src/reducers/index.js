@@ -4,10 +4,12 @@ import auth from './auth';
 import shop from './shop';
 import alert from './alert';
 import notification from './notification'
+import product from "./product";
 
 export default combineReducers({
     auth,
     shop,
     alert,
-    notification
+    notification,
+    product
 });

@@ -1,20 +1,27 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
+import {useDispatch} from 'react-redux'
 import {useHistory} from 'react-router-dom';
 
 
 import NavBar from './NavBar';
 import MyShop from './MyShop';
 import MyProduct from './MyProduct';
+import {getShop} from '../actions/shop';
 
 
 function Home({initialIndex}) {
 
     const [toggleState, setToggle] = useState(initialIndex);
+    const dispatch = useDispatch();
     const history = useHistory();
 
     const handelToggel = (index) => {
         setToggle(index);
     }
+
+    useEffect(() => {
+        dispatch(getShop());
+    },[dispatch]);
 
     return (
         <div>

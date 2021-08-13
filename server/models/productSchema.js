@@ -2,54 +2,37 @@ const mongoose = require('mongoose');
 
 const multer = require('multer');
 const path = require('path');
-const IMAGE_PATH = path.join('/uploads/users/images');
+const IMAGE_PATH = path.join('/uploads/users/productsImages');
 
-const shopSchema = new mongoose.Schema({
-    creater_id:{
-        type: mongoose.Schema.Types.ObjectId,
+const productSchema = new mongoose.Schema({
+    creator_id:{
+        type:mongoose.Schema.Types.ObjectId,
         ref:'User'
     },
-    shopName:{
+    shop_id:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'Shops'
+    },
+    productName:{
         type:String,
         required:true
     },
-    shopGstNum:{
+    productBrand:{
         type:String,
         required:true
     },
-    contactNum:{
+    productCategory:{
         type:String,
         required:true
     },
-    state:{
+    productDesc:{
         type:String,
         required:true
     },
-    city:{
+    productImg:{
         type:String,
         required:true
     },
-    pinCode:{
-        type:String,
-        required:true
-    },
-    shopDesc:{
-        type:String,
-        required:true
-    },
-    shopAddress:{
-        type:String,
-        required:true
-    },
-    shopImg:{
-        type:String,
-        required:true
-    },
-    shopCategories:{
-        type:[String],
-        required:true
-    }
-
 },{
     timestamps:true
 });
@@ -72,7 +55,7 @@ const fileFilter = (req, file, cb) => {
     }
 }
 
-shopSchema.statics.upload = multer({storage,fileFilter}).single('shopImg');
+productSchema.statics.upload = multer({storage,fileFilter}).single('productImg');
 
-const Shops = mongoose.model('Shops',shopSchema);
-module.exports = Shops;
+const Products = mongoose.model('Product',productSchema);
+module.exports = Products;

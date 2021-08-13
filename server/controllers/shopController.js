@@ -56,13 +56,19 @@ exports.getShop = async (req, res) => {
 exports.deleteShop = async (req, res) => {
     try {
         const { id } = req.params;
+        const shop = await Shop.findById(id);
+
+        if (shop.creater_id != req.user_id) {
+            return res.status(401).json({ message: 'You are not a valid user to delete' });
+        }
+
         const deleteShop = await Shop.findByIdAndDelete(id);
         
         if (deleteShop) {
             fs.unlinkSync(path.join(__dirname, '..', deleteShop.shopImg));
             return res.status(200).json({ message: 'Shop closed successfully' });
         }else{
-            return res.status(200).json({ message: 'invalid input'});
+            return res.status(406).json({ message: 'invalid input'});
         }
 
     } catch (error) {
@@ -75,11 +81,11 @@ exports.updateShop = async (req, res) => {
 
     try {
         const { id } = req.params;
-        //console.log(id);
+        
         const updateShop = await Shop.findById(id);
         
         if (updateShop.creater_id != req.user_id) {
-            return res.status(406).json({ message: 'You are not a valid user to update' });
+            return res.status(401).json({ message: 'You are not a valid user to update' });
         }
 
         Shop.upload(req, res, async () => {

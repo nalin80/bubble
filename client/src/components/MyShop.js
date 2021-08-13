@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState} from 'react';
 import { useSelector,useDispatch} from 'react-redux'
 
 import ShopCard from './smallComponents/ShopCard';
 
 import upload_icon from './images/upload-icon.png';
-import { createShop, getShop,updateShop} from '../actions/shop';
+import { createShop,updateShop} from '../actions/shop';
 import {showFailNotification} from '../actions/notification';
 
 function MyShop(props) {
@@ -59,11 +59,11 @@ function MyShop(props) {
 
   }
 
-  useEffect(() => {
+  // useEffect(() => {
     
-    dispatch(getShop());
+  //   dispatch(getShop());
 
-  },[dispatch]);
+  // },[dispatch]);
 
   const handelShopDetails = (e) => {
     setshopDetails({ ...shopDetails, [e.target.name]: e.target.value });

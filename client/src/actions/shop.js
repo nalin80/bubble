@@ -14,6 +14,10 @@ export const createShop = (formData)=>async (dispatch)=>{
 
         dispatch({type:'CREATING_ENDS'});
 
+        const message = 'Shop creadted successfully';
+        dispatch(showSuccessNotification(message));
+  
+
      } catch (error) {
         dispatch({type:'CREATING_ENDS'});
         const {data} = error.response;
@@ -71,5 +75,52 @@ export const deleteShop = (id)=> async(dispatch)=>{
       dispatch(showFailNotification(data.message));
    }
 
+
+}
+
+
+export const addShopCategories = (shop_id,category,categoryIndex)=>async(dispatch)=>{
+   try{
+      dispatch({type:'CREATING_STARTS'});
+
+      const {data} = await api.addShopCategories(shop_id,category,categoryIndex);
+      dispatch({type:'UPDATE_SHOP',payload:data}); 
+
+      dispatch({type:'CREATING_ENDS'});
+
+      const message = 'Category added successfully';
+      dispatch(showSuccessNotification(message));
+
+   }catch(error){
+      dispatch({type:'CREATING_ENDS'});
+      const {data} = error.response;
+
+      dispatch(showFailNotification(data.message));
+      console.log(error);
+       
+   }
+} 
+
+export const deleteShopCategories = (shop_id,index)=>async (dispatch)=>{
+
+   try{
+      dispatch({type:'CREATING_ENDS'});
+
+      const {data} = await api.deleteShopCategories(shop_id,index);
+      dispatch({type:'UPDATE_SHOP',payload:data}); 
+
+      dispatch({type:'CREATING_ENDS'});
+
+      const message = 'Category deleted successfully';
+      dispatch(showSuccessNotification(message));
+   }catch(error){
+
+      dispatch({type:'CREATING_ENDS'});
+      // const {data} = error.response;
+
+      // dispatch(showFailNotification(data.message));
+      console.log(error);
+
+   }
 
 }

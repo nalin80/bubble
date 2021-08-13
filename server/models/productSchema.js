@@ -22,7 +22,8 @@ const productSchema = new mongoose.Schema({
         required:true
     },
     productCategory:{
-        type:String,
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'ProductCategories',
         required:true
     },
     productDesc:{

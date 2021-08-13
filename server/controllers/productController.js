@@ -1,4 +1,5 @@
 const Shop = require('../models/shopSchema');
+const ProductCategory = require('../models/productCategorySchema');
 const Products = require('../models/productSchema');
 
 const fs = require('fs');
@@ -9,42 +10,89 @@ const path = require('path');
 exports.addProductCategories = async (req,res)=>{
     try{
 
+        // let {shop_id,category,categoryIndex} = req.body;
+
+        // if(!shop_id||!category){
+        //     return res.status(406).json({message:'All fields are required'});
+        // }
+
+        // const existingShop = await Shop.findById(shop_id); 
+        
+        // if(existingShop.creater_id!=req.user_id){
+        //     return res.status(401).json({message:'Unauthorized'});  
+        // }
+
+        // if(existingShop){
+        //     const index = existingShop.shopCategories.findIndex((val)=>{
+        //          return val.toLowerCase()===category.toLowerCase();
+        //     });
+
+        //     if(index===-1){
+        //         let splice_index = categoryIndex==null?0:1;
+        //         categoryIndex = categoryIndex==null?0:categoryIndex;
+                
+        
+        //         existingShop.shopCategories.splice(categoryIndex,splice_index,category);
+        //         existingShop.save();
+        //     }else{
+        //         return res.status(406).json({message:'Category already exists'});
+        //     }
+
+        // }else{
+        //     return res.status(406).json({message:'invalid shop id'});
+        // }
+
+        // return res.status(200).json(existingShop);
+
         let {shop_id,category,categoryIndex} = req.body;
 
         if(!shop_id||!category){
             return res.status(406).json({message:'All fields are required'});
         }
 
-        const existingShop = await Shop.findById(shop_id); 
+        const existingShop = await Shop.findById(shop_id).populate('shopCategories'); 
         
-        if(existingShop.creater_id!=req.user_id){
-            return res.status(401).json({message:'Unauthorized'});  
-        }
-
         if(existingShop){
-            const index = existingShop.shopCategories.findIndex((val)=>{
-                 return val.toLowerCase()===category.toLowerCase();
-            });
 
-            if(index===-1){
-                let splice_index = categoryIndex==null?0:1;
-                categoryIndex = categoryIndex==null?0:categoryIndex;
-                
-        
-                existingShop.shopCategories.splice(categoryIndex,splice_index,category);
-                existingShop.save();
-            }else{
-                return res.status(406).json({message:'Category already exists'});
+            if(existingShop.creater_id!=req.user_id){
+                return res.status(401).json({message:'Unauthorized'});  
             }
 
+            const index = existingShop.shopCategories.findIndex((val)=>{
+                 return val.category.toLowerCase()===category.toLowerCase();
+            });            
+            
+            if(index===-1){
+            let newCategory = null;
+            if(categoryIndex!=null){
+                newCategory = await ProductCategory.findById(categoryIndex);
+                newCategory.category = category;
+                newCategory.save();
+
+                existingShop.shopCategories = existingShop.shopCategories.map((val)=>String(val._id)===String(categoryIndex)?newCategory:val);
+                existingShop.save();
+
+            }else{
+                newCategory = await ProductCategory.create({
+                    category
+                });
+
+                existingShop.shopCategories.push(newCategory);
+                existingShop.save();
+            }
+
+            return res.status(200).json(existingShop);
+
+           }else{
+             return res.status(406).json({message:'Category already exists'});
+           }
+
         }else{
-            return res.status(406).json({message:'invalid shop id'});
+            return res.status(406).json({message:'invalid shop id'});            
         }
 
-        return res.status(200).json(existingShop);
-
     }catch(error){
-
+         console.log(error);
          return res.status(500).json({message:'Something went wrong'});
     }
 }
@@ -54,12 +102,15 @@ exports.deleteCategories = async (req,res)=>{
   
    try{
        const {shop_id,index} = req.body;
-       const shop = await Shop.findById(shop_id);
+       const shop = await Shop.findById(shop_id).populate('shopCategories');
 
        if(shop.creater_id!=req.user_id){
         return res.status(401).json({message:'Unauthorized'});  
        }
- 
+       
+       let category = shop.shopCategories[index];
+       await ProductCategory.findByIdAndDelete(category._id);
+
        shop.shopCategories = shop.shopCategories.filter((val,i)=>i !==parseInt(index));
        shop.save();
 

@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import ProductCard from './smallComponents/ProductCard';
 import upload_icon from './images/upload-icon.png';
 
+import {setAlertval} from '../actions/alert';
 import { addShopCategories, deleteShopCategories } from '../actions/shop';
 import { showFailNotification } from '../actions/notification';
 import { createProduct, getProducts,updateProduct} from '../actions/product';
@@ -16,6 +17,7 @@ function MyProduct(props) {
     const shops = useSelector((state) => state.shop.shops);
     const isCreating = useSelector((state) => state.shop.isCreating);
     const isAddingProduct = useSelector((state) => state.product.isCreating);
+    const isConfirmed = useSelector((state) => state.alert.isConfirmed);
 
     const [currentShop, setCurrentShop] = useState('null');
     const [shopId, setShopId] = useState("false");
@@ -29,6 +31,7 @@ function MyProduct(props) {
         productImg: '',
     });
     const [editProductId, setEditProductId] = useState(null);
+    const [DeleteCategoryId, setDeleteCategoryId] = useState(null);
 
     //this clear function will clear all input fields and set all state to its initial state;
     const clear = () => {
@@ -67,7 +70,9 @@ function MyProduct(props) {
 
     //for deleting category
     const handelDeleteCategory = (index) => {
-        dispatch(deleteShopCategories(shopId, index));
+        // dispatch(deleteShopCategories(shopId, index));
+        setDeleteCategoryId(index);
+        dispatch(setAlertval());
     }
 
     const handelAddProductChande = (e) => {
@@ -114,9 +119,14 @@ function MyProduct(props) {
         if (shopId !== "false") {
             dispatch(getProducts(shopId));
         }
+
+        if(isConfirmed&&DeleteCategoryId){
+               dispatch(deleteShopCategories(shopId, DeleteCategoryId));     
+        }
+
         //product state should be cleared
 
-    }, [shopId, shops, dispatch]);
+    }, [shopId, shops,DeleteCategoryId,isConfirmed,dispatch]);
 
 
 
@@ -179,10 +189,10 @@ function MyProduct(props) {
                                     <div className="added-category">
                                         {currentShop[0]?.shopCategories.map((value, i) => {
                                             return (
-                                                <div key={value} className="item">
-                                                    <span >{value}</span>
+                                                <div key={value.category} className="item">
+                                                    <span >{value.category}</span>
                                                     <div className="category-btn-group">
-                                                        <button onClick={() => { setAddCategory(value); setCategoryIndex(i) }}>Edit</button>
+                                                        <button onClick={() => { setAddCategory(value.category); setCategoryIndex(value._id) }}>Edit</button>
                                                         <button onClick={() => handelDeleteCategory(i)}>Delete</button>
                                                     </div>
                                                 </div>
@@ -212,7 +222,7 @@ function MyProduct(props) {
                                         <option value="">Select Category</option>
                                         {currentShop[0]?.shopCategories.map((value) => {
                                             return (
-                                                <option key={value} value={value}>{value}</option>
+                                                <option key={value.category} value={value._id}>{value.category}</option>
                                             )
                                         })
                                         }

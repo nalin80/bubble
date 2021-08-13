@@ -43,7 +43,7 @@ exports.getShop = async (req, res) => {
 
     try {
 
-        const shopDetails = await Shop.find({ creater_id: req.user_id });
+        const shopDetails = await Shop.find({ creater_id: req.user_id }).populate('shopCategories');
         return res.status(200).json(shopDetails);
 
     } catch (error) {

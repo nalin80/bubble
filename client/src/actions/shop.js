@@ -84,6 +84,7 @@ export const addShopCategories = (shop_id,category,categoryIndex)=>async(dispatc
       dispatch({type:'CREATING_STARTS'});
 
       const {data} = await api.addShopCategories(shop_id,category,categoryIndex);
+      console.log(data);
       dispatch({type:'UPDATE_SHOP',payload:data}); 
 
       dispatch({type:'CREATING_ENDS'});
@@ -104,15 +105,15 @@ export const addShopCategories = (shop_id,category,categoryIndex)=>async(dispatc
 export const deleteShopCategories = (shop_id,index)=>async (dispatch)=>{
 
    try{
-      dispatch({type:'CREATING_ENDS'});
+      // dispatch({type:'CREATING_ENDS'});
 
-      const {data} = await api.deleteShopCategories(shop_id,index);
-      dispatch({type:'UPDATE_SHOP',payload:data}); 
+      // const {data} = await api.deleteShopCategories(shop_id,index);
+      // dispatch({type:'UPDATE_SHOP',payload:data}); 
 
-      dispatch({type:'CREATING_ENDS'});
+      // dispatch({type:'CREATING_ENDS'});
 
-      const message = 'Category deleted successfully';
-      dispatch(showSuccessNotification(message));
+      // const message = 'Category deleted successfully';
+      // dispatch(showSuccessNotification(message));
    }catch(error){
 
       dispatch({type:'CREATING_ENDS'});

@@ -45,10 +45,10 @@ const shopSchema = new mongoose.Schema({
         type:String,
         required:true
     },
-    shopCategories:{
-        type:[String],
-        required:true
-    }
+    shopCategories:[{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'ProductCategories'
+    }]
 
 },{
     timestamps:true

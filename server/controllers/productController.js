@@ -110,13 +110,23 @@ exports.deleteCategories = async (req,res)=>{
        
        let category = shop.shopCategories[index];
        await ProductCategory.findByIdAndDelete(category._id);
+       
+       let deleteAssociateProducts = await Products.find({shop_id,productCategory:category._id});
 
+       await Products.deleteMany({shop_id,productCategory:category._id});
+    
+        //this will delete all images of a product associate with category
+        deleteAssociateProducts.map((product)=>{
+           fs.unlinkSync(path.join(__dirname, '..', product.productImg));
+        })
+       
        shop.shopCategories = shop.shopCategories.filter((val,i)=>i !==parseInt(index));
        shop.save();
 
        return res.status(200).json(shop);
 
    }catch(error){
+         console.log(error);
          return res.status(500).json({message:'Something went wrong'});
    }
 

@@ -43,7 +43,7 @@ export const deleteProduct = (id)=>async (dispatch)=>{
  
     try{
         const {data} = await api.deleteProduct(id);
-        console.log(data);
+        // console.log(data);
 
         dispatch({type:'DELETE_PRODUCT',payload:id});
 
@@ -60,7 +60,7 @@ export const updateProduct = (id,formData) =>async (dispatch)=>{
     try{
        
         const {data}=await api.updateProduct(id,formData);
-        console.log(data);
+        // console.log(data);
 
         dispatch({type:'UPDATE_PRODUCT',payload:data});
 

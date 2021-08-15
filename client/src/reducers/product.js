@@ -37,6 +37,11 @@ const productReducer = (state = initialState, actions) => {
                 ...state,
                 isCreating: false
             }
+        case 'CLEAR_PRODUCTS':
+            return{
+                products: [],
+                isCreating: false
+            }    
         default:
             return state;
 

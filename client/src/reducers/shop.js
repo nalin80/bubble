@@ -38,6 +38,11 @@ const shopReducer = (state = inialState, actions) => {
                 ...state,
                 isCreating: false
             }
+        case 'CLEAR_SHOP':
+            return{
+                shops: [],
+                isCreating: false
+            }    
         default:
             return state;
     }

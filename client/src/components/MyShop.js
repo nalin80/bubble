@@ -9,7 +9,7 @@ import {showFailNotification} from '../actions/notification';
 
 function MyShop(props) {
   
-   
+  const shops = useSelector((state) => state.shop.shops); 
   const dispatch = useDispatch();
   const [shopDetails, setshopDetails] = useState({
     shopName: "", shopGstNum: "", contactNum: "", state: "", city: "", pinCode: "", shopDesc: "", shopAddress: "", shopImg: ""
@@ -171,9 +171,11 @@ function MyShop(props) {
         </div>
       </div>
 
-      <div className="shop-card-container">
+      {shops.length!==0?<div className="shop-card-container">
             <ShopCard setCurrentId={setCurrentId} setshopDetails={setshopDetails}/>
-      </div>
+      </div>:
+            <h1 style={{textAligh:"center",color: "#8f8f8f"}}>Create Your First shop and Mark your online presence</h1>
+      }
 
     </div>
 

@@ -4,17 +4,18 @@ import { useSelector, useDispatch } from 'react-redux';
 import ProductCard from './smallComponents/ProductCard';
 import upload_icon from './images/upload-icon.png';
 
-import {setAlertval} from '../actions/alert';
+import { setAlertval } from '../actions/alert';
 import { addShopCategories, deleteShopCategories } from '../actions/shop';
 import { showFailNotification } from '../actions/notification';
-import { createProduct, getProducts,updateProduct} from '../actions/product';
+import { createProduct, getProducts, updateProduct } from '../actions/product';
 
 function MyProduct(props) {
 
 
     const dispatch = useDispatch();
-
+    const product = useSelector((state) => state.product.products);
     const shops = useSelector((state) => state.shop.shops);
+
     const isCreating = useSelector((state) => state.shop.isCreating);
     const isAddingProduct = useSelector((state) => state.product.isCreating);
     const isConfirmed = useSelector((state) => state.alert.isConfirmed);
@@ -99,7 +100,7 @@ function MyProduct(props) {
 
 
             if (editProductId) {
-                dispatch(updateProduct(editProductId,formData));
+                dispatch(updateProduct(editProductId, formData));
             } else {
                 dispatch(createProduct(formData));
             }
@@ -120,13 +121,16 @@ function MyProduct(props) {
             dispatch(getProducts(shopId));
         }
 
-        if(isConfirmed&&DeleteCategoryId){
-               dispatch(deleteShopCategories(shopId, DeleteCategoryId));     
+        if (isConfirmed && DeleteCategoryId != null) {
+
+            dispatch(deleteShopCategories(shopId, DeleteCategoryId));
+            setDeleteCategoryId(null);
+
         }
 
         //product state should be cleared
 
-    }, [shopId, shops,DeleteCategoryId,isConfirmed,dispatch]);
+    }, [shopId, shops, DeleteCategoryId, isConfirmed, dispatch]);
 
 
 
@@ -252,11 +256,13 @@ function MyProduct(props) {
                         </div>
                     </> : null}
             </div>
-            {shopId !== "false" ? <div className="card-container">
+            {shopId !== "false"&&product.length!==0 ? <div className="card-container">
 
                 <ProductCard setProducts={setProducts} setEditProductId={setEditProductId} />
 
-            </div> : null}
+            </div> :
+                <h1 style={{ textAligh: "center",color: "#8f8f8f" }}>No products to show</h1>
+            }
 
         </div>
     );

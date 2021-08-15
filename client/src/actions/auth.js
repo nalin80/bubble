@@ -65,6 +65,9 @@ export const LoggedInStatus = ()=>async (dispatch)=>{
             state:false,
             user:null
         }});
+        dispatch({type:'CLEAR_SHOP'});
+        dispatch({type:'CLEAR_PRODUCTS'});
+
     }
 
 }

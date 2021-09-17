@@ -20,6 +20,7 @@ function MyProduct(props) {
     const isAddingProduct = useSelector((state) => state.product.isCreating);
     const isConfirmed = useSelector((state) => state.alert.isConfirmed);
 
+    const [searchProduct,setSearchProduct] = useState(null);
     const [currentShop, setCurrentShop] = useState('null');
     const [shopId, setShopId] = useState("false");
     const [addCategory, setAddCategory] = useState('');
@@ -46,6 +47,15 @@ function MyProduct(props) {
             productImg: '',
         });
         setEditProductId(null);
+    }
+
+    const handelsearchProduct =(e)=>{
+        setSearchProduct({ ...searchProduct, [e.target.name]: e.target.value });
+    }
+
+    const searchClick = (e)=>{
+        e.preventDefault();
+        console.log(searchProduct);
     }
 
     //this wiil handling the change of shop
@@ -83,6 +93,8 @@ function MyProduct(props) {
     const handelAddProductFile = (e) => {
         setProducts({ ...products, productImg: e.target.files[0] });
     }
+
+    
 
     const addProductSubmit = (e) => {
         e.preventDefault();
@@ -163,13 +175,21 @@ function MyProduct(props) {
                             <h3 className="title">Search products</h3>
                             <form>
                                 <div className="input-field-container">
-                                    <input className="inputField" type="text" name="search-by-product" placeholder="Search by product" />
+                                    <input className="inputField" type="text" name="search-by-product" placeholder="Search by product" onChange={handelsearchProduct}/>
                                 </div>
                                 <div className="input-field-container">
-                                    <input className="inputField" type="text" name="search-by-brand" placeholder="Search by brand" />
+                                    <select className="inputField" name="search-by-category" onChange={handelsearchProduct}>
+                                        <option value="">Search by Category</option>
+                                        {currentShop[0]?.shopCategories.map((value) => {
+                                            return (
+                                                <option key={value.category} value={value._id}>{value.category}</option>
+                                            )
+                                        })
+                                        }
+                                    </select>
                                 </div>
                                 <div className="input-field-container">
-                                    <button className="inputField submit-btn">Search Product</button>
+                                    <button className="inputField submit-btn" onClick={searchClick}>Search Product</button>
                                 </div>
                             </form>
                         </div>
